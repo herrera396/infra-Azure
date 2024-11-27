@@ -20,24 +20,3 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    # Criar um grupo de recursos e uma máquina virtual com a imagem correta
-    - name: Create Virtual Machine
-      run: |
-        az group create --name myResourceGroup --location eastus
-        az vm create \
-          --resource-group myResourceGroup \
-          --name myVM \
-          --image Ubuntu2204 \
-          --admin-username azureuser \
-          --generate-ssh-keys \
-          --size Standard_B1ms  # Alterado para um SKU disponível
-
-    # Aguardar 30 segundos
-    - name: Wait 30 seconds
-      run: sleep 30
-
-    # Excluir a máquina virtual
-    - name: Delete Virtual Machine
-      run: |
-        az vm delete --name myVM --resource-group myResourceGroup --yes --no-wait
-        az group delete --name myResourceGroup --yes --no-wait
