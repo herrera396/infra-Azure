@@ -30,7 +30,7 @@ jobs:
           --image Ubuntu2204 \
           --admin-username azureuser \
           --generate-ssh-keys \
-          --size Standard_DS1_v2   # Garantindo que o tipo de VM seja válido
+          --size Standard_B1ms  # Alterado para um SKU disponível
 
     # Aguardar 30 segundos
     - name: Wait 30 seconds
