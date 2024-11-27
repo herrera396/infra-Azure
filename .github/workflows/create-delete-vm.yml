@@ -20,16 +20,17 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-    # Criar um grupo de recursos e uma máquina virtual
+    # Criar um grupo de recursos e uma máquina virtual com a imagem correta
     - name: Create Virtual Machine
       run: |
         az group create --name myResourceGroup --location eastus
         az vm create \
           --resource-group myResourceGroup \
           --name myVM \
-          --image Ubuntu2204 \  # Atualizado para uma imagem válida
+          --image Ubuntu2204 \
           --admin-username azureuser \
-          --generate-ssh-keys
+          --generate-ssh-keys \
+          --size Standard_DS1_v2   # Garantindo que o tipo de VM seja válido
 
     # Aguardar 30 segundos
     - name: Wait 30 seconds
