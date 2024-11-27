@@ -4,26 +4,25 @@ on:
   workflow_dispatch: # Permite execução manual do workflow
 
 permissions:
-  id-token: write   # Necessário para OIDC
-  contents: read    # Permite leitura de arquivos do repositório
+  id-token: write   # Permissão para gerar o token de identidade
+  contents: read    # Permissão padrão para ler arquivos do repositório
 
 jobs:
   create-delete-vm:
     runs-on: ubuntu-latest
 
     steps:
-    # Checkout do repositório (se necessário)
+    # Checkout do repositório
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # Fazer login no Azure usando OIDC
+    # Fazer login com Azure usando OIDC (sem necessidade de auth-type)
     - name: Azure Login
       uses: azure/login@v1
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-        auth-type: oidc
 
     # Criar o grupo de recursos e a máquina virtual
     - name: Create Virtual Machine
@@ -36,12 +35,12 @@ jobs:
           --admin-username azureuser \
           --generate-ssh-keys
 
-    # Esperar 30 segundos
+    # Aguardar 30 segundos
     - name: Wait 30 seconds
       run: sleep 30
 
-    # Excluir a máquina virtual e o grupo de recursos
-    - name: Delete Virtual Machine and Resource Group
+    # Excluir a máquina virtual
+    - name: Delete Virtual Machine
       run: |
         az vm delete --name myVM --resource-group myResourceGroup --yes --no-wait
         az group delete --name myResourceGroup --yes --no-wait
