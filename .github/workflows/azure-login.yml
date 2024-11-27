@@ -1,4 +1,4 @@
-name: Create and Delete Azure VM
+name: Login in Azure
 
 on:
   workflow_dispatch:
