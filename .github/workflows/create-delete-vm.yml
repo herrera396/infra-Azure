@@ -27,7 +27,7 @@ jobs:
         az vm create \
           --resource-group myResourceGroup \
           --name myVM \
-          --image UbuntuLTS \
+          --image Ubuntu2204 \  # Atualizado para uma imagem válida
           --admin-username azureuser \
           --generate-ssh-keys
 
@@ -35,7 +35,7 @@ jobs:
     - name: Wait 30 seconds
       run: sleep 30
 
-    # Excluir o grupo de recursos e a máquina virtual
+    # Excluir a máquina virtual
     - name: Delete Virtual Machine
       run: |
         az vm delete --name myVM --resource-group myResourceGroup --yes --no-wait
